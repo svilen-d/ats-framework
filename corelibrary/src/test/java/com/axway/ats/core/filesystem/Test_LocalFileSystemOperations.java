@@ -213,35 +213,39 @@ public class Test_LocalFileSystemOperations extends BaseTest {
 
     @Test
     public void testCreateFilePositiveWithUidAndGid() throws Exception {
+        final String userName = System.setProperty("user.name", "root");
+        try {
+            expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
+            expect(Runtime.getRuntime()).andReturn(mockRuntime);
+            String[] cmdCommand = new String[] { "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
+            expect(mockRuntime.exec(aryEq(cmdCommand))).andReturn(mockProcess);
+            expect(mockProcess.getInputStream()).andReturn(STD_OUT);
+            expect(mockProcess.getErrorStream()).andReturn(STD_ERR);
+            expect(mockProcess.waitFor()).andReturn(0);
 
-        expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
-        expect(Runtime.getRuntime()).andReturn(mockRuntime);
-        String[] cmdCommand = new String[]{ "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
-        expect(mockRuntime.exec(aryEq(cmdCommand))).andReturn(mockProcess);
-        expect(mockProcess.getInputStream()).andReturn(STD_OUT);
-        expect(mockProcess.getErrorStream()).andReturn(STD_ERR);
-        expect(mockProcess.waitFor()).andReturn(0);
+            //FIXME:
+            //        expect( mockProcess.getInputStream() ).andReturn( new ByteArrayInputStream( new String( "drwxr-xrw- 2 120 230 80 May 20 14:56 "
+            //                                                                                                + file.getPath() ).getBytes() ) );
 
-        //FIXME:
-        //        expect( mockProcess.getInputStream() ).andReturn( new ByteArrayInputStream( new String( "drwxr-xrw- 2 120 230 80 May 20 14:56 "
-        //                                                                                                + file.getPath() ).getBytes() ) );
+            replayAll();
 
-        replayAll();
+            testObject.createFile(file.getPath(), 25, 120, 230, false);
 
-        testObject.createFile(file.getPath(), 25, 120, 230, false);
+            // verify results
+            verifyAll();
 
-        // verify results
-        verifyAll();
+            assertTrue(file.exists());
+            assertEquals(25L, file.length());
 
-        assertTrue(file.exists());
-        assertEquals(25L, file.length());
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            assertEquals("0", bufferedReader.readLine());
+            assertTrue(bufferedReader.readLine().startsWith("123456789:;<=>?@ABCDEF"));
 
-        assertEquals("0", bufferedReader.readLine());
-        assertTrue(bufferedReader.readLine().startsWith("123456789:;<=>?@ABCDEF"));
-
-        bufferedReader.close();
+            bufferedReader.close();
+        } finally {
+            System.setProperty("user.name", userName);
+        }
     }
 
     @Test
@@ -269,18 +273,22 @@ public class Test_LocalFileSystemOperations extends BaseTest {
 
     @Test( expected = FileSystemOperationException.class)
     public void testCreateFileWithUidAndGidNegative() throws Exception {
+        final String userName = System.setProperty("user.name", "root");
+        try {
+            expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
+            expect(Runtime.getRuntime()).andReturn(mockRuntime);
+            String[] cmdCommand = new String[] { "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
+            expect(mockRuntime.exec(aryEq(cmdCommand))).andThrow(new IOException());
 
-        expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
-        expect(Runtime.getRuntime()).andReturn(mockRuntime);
-        String[] cmdCommand = new String[]{ "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
-        expect(mockRuntime.exec(aryEq(cmdCommand))).andThrow(new IOException());
+            replayAll();
 
-        replayAll();
+            testObject.createFile(file.getPath(), 25, 120, 230, false);
 
-        testObject.createFile(file.getPath(), 25, 120, 230, false);
-
-        // verify results
-        verifyAll();
+            // verify results
+            verifyAll();
+        } finally {
+            System.setProperty("user.name", userName);
+        }
     }
 
     // --------------------------- TEST CREATE BINARY FILE ---------------------------
@@ -355,34 +363,39 @@ public class Test_LocalFileSystemOperations extends BaseTest {
     @Test
     public void createBinaryFilePositiveWithUidAndGid() throws Exception {
 
-        expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
-        expect(Runtime.getRuntime()).andReturn(mockRuntime);
-        String[] cmdCommand = new String[]{ "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
-        expect(mockRuntime.exec(aryEq(cmdCommand))).andReturn(mockProcess);
-        expect(mockProcess.getInputStream()).andReturn(STD_OUT);
-        expect(mockProcess.getErrorStream()).andReturn(STD_ERR);
-        expect(mockProcess.waitFor()).andReturn(0);
+        final String userName = System.setProperty("user.name", "root");
+        try {
+            expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
+            expect(Runtime.getRuntime()).andReturn(mockRuntime);
+            String[] cmdCommand = new String[] { "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
+            expect(mockRuntime.exec(aryEq(cmdCommand))).andReturn(mockProcess);
+            expect(mockProcess.getInputStream()).andReturn(STD_OUT);
+            expect(mockProcess.getErrorStream()).andReturn(STD_ERR);
+            expect(mockProcess.waitFor()).andReturn(0);
 
-        replayAll();
+            replayAll();
 
-        testObject.createBinaryFile(file.getPath(), 18, 120, 230, false);
+            testObject.createBinaryFile(file.getPath(), 18, 120, 230, false);
 
-        // verify results
-        verifyAll();
+            // verify results
+            verifyAll();
 
-        assertTrue(file.exists());
-        assertEquals(18L, file.length());
+            assertTrue(file.exists());
+            assertEquals(18L, file.length());
 
-        byte[] actualBytes = new byte[18];
-        byte[] expectedBytes = new byte[18];
-        byte nextByte = Byte.MIN_VALUE;
-        for (int i = 0; i < expectedBytes.length; i++) {
-            expectedBytes[i] = nextByte++;
+            byte[] actualBytes = new byte[18];
+            byte[] expectedBytes = new byte[18];
+            byte nextByte = Byte.MIN_VALUE;
+            for (int i = 0; i < expectedBytes.length; i++) {
+                expectedBytes[i] = nextByte++;
+            }
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            bis.read(actualBytes);
+            assertTrue(Arrays.equals(expectedBytes, actualBytes));
+            bis.close();
+        } finally {
+            System.setProperty("user.name", userName);
         }
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-        bis.read(actualBytes);
-        assertTrue(Arrays.equals(expectedBytes, actualBytes));
-        bis.close();
     }
 
     @Test
@@ -414,18 +427,22 @@ public class Test_LocalFileSystemOperations extends BaseTest {
 
     @Test( expected = FileSystemOperationException.class)
     public void createBinaryFileWithUidAndGidNegative() throws Exception {
+        final String userName = System.setProperty("user.name", "root");
+        try {
+            expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
+            expect(Runtime.getRuntime()).andReturn(mockRuntime);
+            String[] cmdCommand = new String[] { "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
+            expect(mockRuntime.exec(aryEq(cmdCommand))).andThrow(new IOException());
 
-        expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
-        expect(Runtime.getRuntime()).andReturn(mockRuntime);
-        String[] cmdCommand = new String[]{ "/bin/sh", "-c", "chown 120:230 '" + file.getPath() + "'" };
-        expect(mockRuntime.exec(aryEq(cmdCommand))).andThrow(new IOException());
+            replayAll();
 
-        replayAll();
+            testObject.createBinaryFile(file.getPath(), 25, 120, 230, false);
 
-        testObject.createBinaryFile(file.getPath(), 25, 120, 230, false);
-
-        // verify results
-        verifyAll();
+            // verify results
+            verifyAll();
+        } finally {
+            System.setProperty("user.name", userName);
+        }
     }
 
     @Test( expected = FileSystemOperationException.class)
@@ -533,7 +550,7 @@ public class Test_LocalFileSystemOperations extends BaseTest {
 
         String newDirectoryPath = file.getParent() + File.separator + NEW_DIRECTORY_NAME;
         File newDirectory = new File(newDirectoryPath);
-
+        final String userName = System.setProperty("user.name", "root");
         try {
             expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
             expect(Runtime.getRuntime()).andReturn(mockRuntime);
@@ -555,6 +572,7 @@ public class Test_LocalFileSystemOperations extends BaseTest {
             assertTrue(newDirectory.isDirectory());
         } finally {
             newDirectory.delete();
+            System.setProperty("user.name", userName);
         }
     }
 
@@ -586,7 +604,7 @@ public class Test_LocalFileSystemOperations extends BaseTest {
 
         String newDirectoryPath = file.getParent() + File.separator + NEW_DIRECTORY_NAME;
         File newDirectory = new File(newDirectoryPath);
-
+        final String userName = System.setProperty("user.name", "root");
         try {
             expect(OperatingSystemType.getCurrentOsType()).andReturn(OperatingSystemType.LINUX);
             expect(Runtime.getRuntime()).andReturn(mockRuntime);
@@ -602,6 +620,7 @@ public class Test_LocalFileSystemOperations extends BaseTest {
             verifyAll();
         } finally {
             newDirectory.delete();
+            System.setProperty("user.name", userName);
         }
     }
 

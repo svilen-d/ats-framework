@@ -224,9 +224,12 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
 
         if (OperatingSystemType.getCurrentOsType().isUnix()) {
             //set the file attributes if OS is Unix
-            chown(userId, groupId, filename);
-            log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
-
+            if (AtsSystemProperties.isRootUser()) {
+                chown(userId, groupId, filename);
+                log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
+            } else {
+                log.info("Current user is non-root and 'chmod' command is not permitted.");
+            }
         } else {
             log.info("Target OS is not Unix. UID and GID attributes will be ignored");
         }
@@ -386,9 +389,12 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
 
         if (OperatingSystemType.getCurrentOsType().isUnix()) {
             //set the file attributes if OS is Unix
-            chown(userId, groupId, filename);
-            log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
-
+            if (AtsSystemProperties.isRootUser()) {
+                chown(userId, groupId, filename);
+                log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
+            } else {
+                log.info("Current user is non-root and 'chmod' command is not permitted.");
+            }
         } else {
             log.info("Target OS is not Unix. UID and GID attributes will be ignored");
         }
@@ -1250,7 +1256,11 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
         checkAttributeOsSupport(FileAttributes.UID);
 
         long gid = getGroupId(sourceFile);
-        chown(uid, gid, sourceFile);
+        if (AtsSystemProperties.isRootUser()) {
+            chown(uid, gid, sourceFile);
+        } else {
+            log.info("Current user is non-root and 'chmod' command is not permitted.");
+        }
     }
 
     @Override
@@ -1276,7 +1286,12 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
         checkAttributeOsSupport(FileAttributes.GID);
 
         long uid = getUserId(sourceFile);
-        chown(uid, gid, sourceFile);
+
+        if (AtsSystemProperties.isRootUser()) {
+            chown(uid, gid, sourceFile);
+        } else {
+            log.info("Current user is non-root and 'chmod' command is not permitted.");
+        }
     }
 
     @Override
@@ -1508,8 +1523,12 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
 
         if (OperatingSystemType.getCurrentOsType().isUnix()) {
             //set the file attributes if OS is Unix
-            chown(userId, groupId, directoryName);
-            log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
+            if (AtsSystemProperties.isRootUser()) {
+                chown(userId, groupId, directoryName);
+                log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
+            } else {
+                log.info("Current user is non-root and 'chmod' command is not permitted.");
+            }
         } else {
             log.info("Target OS is not Unix. UID and GID attributes will be ignored");
         }
@@ -2088,12 +2107,6 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
             long userId,
             long groupId,
             String filename) {
-
-        // Do not execute command if user is non-root
-        if(!AtsSystemProperties.USER_NAME.equals("root")){
-            log.debug("Current user is non-root and 'chmod' command is not permitted.");
-            return;
-        }
 
         filename = IoUtils.normalizeFilePath(filename, osType);
         String[] command = new String[] { "/bin/sh",
