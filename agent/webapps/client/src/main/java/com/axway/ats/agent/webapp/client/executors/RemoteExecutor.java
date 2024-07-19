@@ -20,6 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -116,6 +118,7 @@ public class RemoteExecutor extends AbstractClientExecutor {
         //get the client
         AgentService agentServicePort = AgentServicePool.getInstance().getClient(atsAgent);
 
+        final String COMM_ERROR = "Error connecting or communicating with agent at ";
         try {
             //FIXME: swap with ActionWrapper
             byte[] resultAsBytes = agentServicePort.executeAction(componentName, actionName,
@@ -128,6 +131,8 @@ public class RemoteExecutor extends AbstractClientExecutor {
 
             result = objectInStream.readObject();
 
+        } catch (SocketException e) { // includes ConnectException
+            throw new AgentException(COMM_ERROR + atsAgent, e);
         } catch (IOException ioe) {
             throw new AgentException("Could not deserialize returned result from agent at " + atsAgent,
                                      ioe);
@@ -149,7 +154,13 @@ public class RemoteExecutor extends AbstractClientExecutor {
                                                                                      atsAgent);
 
         } catch (Exception e) {
-            throw new AgentException(e.getMessage(), e);
+            String msg;
+            if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
+                msg = COMM_ERROR + atsAgent;
+            } else {
+                msg = e.getMessage();
+            }
+            throw new AgentException(msg, e);
         }
 
         return result;
