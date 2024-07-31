@@ -37,7 +37,7 @@
         <appender-ref ref="console"/>
 
         <!-- enable logging into the dedicated logging database -->
-        <appender-ref ref="db"/>
+        <!--<appender-ref ref="db"/>-->
     </root>
 
 </log4j:configuration>
