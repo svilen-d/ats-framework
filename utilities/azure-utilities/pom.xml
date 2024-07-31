@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.axway.ats.framework.utilities</groupId>
         <artifactId>ats-utilities</artifactId>
-        <version>4.0.11-log4j1-SNAPSHOT</version>
+        <version>4.0.11-M4</version>
     </parent>
 
     <artifactId>ats-azure-utilities</artifactId>
@@ -50,11 +50,11 @@
             <artifactId>azure-storage-blob</artifactId>
             <version>12.18.0</version>
         </dependency>
-        <dependency>
+<!--        <dependency> comes as dependency inside and is not optional
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.10.1</version>
-        </dependency>
+            <version>2.13.4</version>
+        </dependency>-->
     </dependencies>
 
 </project>
