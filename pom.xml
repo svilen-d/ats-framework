@@ -524,15 +524,18 @@
     </organization>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>repo</id>
+            <name>Repo Releases</name>
+            <url>${repo-releases-url}</url>
         </repository>
+        <snapshotRepository>
+            <id>repo</id>
+            <name>Repo Snapshots</name>
+            <url>${repo-snapshots-url}</url>
+        </snapshotRepository>
     </distributionManagement>
+
 
     <scm>
         <connection>scm:git:https://github.com/Axway/ats-framework.git</connection>
