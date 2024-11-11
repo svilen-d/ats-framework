@@ -56,6 +56,7 @@ public enum OperatingSystemType {
     private static final String        OS_HP_UX                    = "HP-UX";
     private static final String        OS_AIX                      = "AIX";
     private static final String        OS_MAC_OS_LOWER_CASE_PREFIX = "mac os"; // generally seen as "Mac OS"
+    private static boolean OS_NAME_UNKNOWN_LOGGED = false;
 
     static {
         //static section to initialize the current OS type
@@ -140,6 +141,11 @@ public enum OperatingSystemType {
         } else if (osName.toLowerCase().startsWith(OS_MAC_OS_LOWER_CASE_PREFIX)) {
             return OperatingSystemType.MAC_OS;
         } else {
+            if (!OS_NAME_UNKNOWN_LOGGED) {
+                System.err.println("*** ATS *** OperatingSystemType: WARN Unsupported OS name passed: '" + osName
+                                   + "'. Logging only once. Might lead to other ATS Framework errors");
+                OS_NAME_UNKNOWN_LOGGED = true;
+            }
             return OperatingSystemType.UNKNOWN;
         }
     }
