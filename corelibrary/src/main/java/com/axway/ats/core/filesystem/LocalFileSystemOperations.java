@@ -225,17 +225,6 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
         createBinaryFile(filename, size, randomContent);
 
         setFileOwnerAndGroupIDs(filename, userId, groupId);
-        /*if (OperatingSystemType.getCurrentOsType().isUnix()) {
-            //set the file attributes if OS is Unix
-            if (AtsSystemProperties.isRootUser()) {
-                chown(userId, groupId, filename);
-                log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
-            } else {
-                log.info("Current user is non-root and 'chown' command is not permitted.");
-            }
-        } else {
-            log.info("Target OS is not Unix. UID and GID attributes will be ignored");
-        }*/
     }
 
     private void createFile(
@@ -396,7 +385,7 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
                 chown(userId, groupId, filename);
                 log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
             } else {
-                log.info("Current user is non-root and 'dhown' command is not permitted.");
+                log.info(MSG_USER_IS_NON_ROOT_AND_CHOWN_COMMAND_IS_NOT_PERMITTED);
             }
         } else {
             log.info("Target OS is not Unix. UID and GID attributes will be ignored");
