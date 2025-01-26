@@ -135,11 +135,13 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
      * Random generator used by the createFile and createBinaryFile
      */
     private static final Random randomGenerator = new Random();
-    private static final Map<String, FileLock> lockedFiles = new HashMap<String, FileLock>();
+    private static final Map<String, FileLock> lockedFiles                                             = new HashMap<String, FileLock>();
+    private  static final String               MSG_USER_IS_NON_ROOT_AND_CHOWN_COMMAND_IS_NOT_PERMITTED =
+            "Current user is non-root and 'chown' command is not permitted.";
     /**
      * The type of the local OS
      */
-    private final OperatingSystemType osType;
+    private final OperatingSystemType          osType;
     // Used to keep track of pending file transfers and wait to complete. Map of open-port:FileTransferStatus pairs.
     // Instance should be Hashtable to synchronize access operations;
     private final Map<Integer, FileTransferStatus> fileTransferStates = new Hashtable<Integer, FileTransferStatus>();
@@ -222,17 +224,18 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
 
         createBinaryFile(filename, size, randomContent);
 
-        if (OperatingSystemType.getCurrentOsType().isUnix()) {
+        setFileOwnerAndGroupIDs(filename, userId, groupId);
+        /*if (OperatingSystemType.getCurrentOsType().isUnix()) {
             //set the file attributes if OS is Unix
             if (AtsSystemProperties.isRootUser()) {
                 chown(userId, groupId, filename);
                 log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
             } else {
-                log.info("Current user is non-root and 'chmod' command is not permitted.");
+                log.info("Current user is non-root and 'chown' command is not permitted.");
             }
         } else {
             log.info("Target OS is not Unix. UID and GID attributes will be ignored");
-        }
+        }*/
     }
 
     private void createFile(
@@ -393,7 +396,7 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
                 chown(userId, groupId, filename);
                 log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
             } else {
-                log.info("Current user is non-root and 'chmod' command is not permitted.");
+                log.info("Current user is non-root and 'dhown' command is not permitted.");
             }
         } else {
             log.info("Target OS is not Unix. UID and GID attributes will be ignored");
@@ -1259,7 +1262,7 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
         if (AtsSystemProperties.isRootUser()) {
             chown(uid, gid, sourceFile);
         } else {
-            log.info("Current user is non-root and 'chmod' command is not permitted.");
+            log.info(MSG_USER_IS_NON_ROOT_AND_CHOWN_COMMAND_IS_NOT_PERMITTED);
         }
     }
 
@@ -1290,7 +1293,7 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
         if (AtsSystemProperties.isRootUser()) {
             chown(uid, gid, sourceFile);
         } else {
-            log.info("Current user is non-root and 'chmod' command is not permitted.");
+            log.info(MSG_USER_IS_NON_ROOT_AND_CHOWN_COMMAND_IS_NOT_PERMITTED);
         }
     }
 
@@ -1520,18 +1523,7 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
             long groupId) {
 
         createDirectory(directoryName);
-
-        if (OperatingSystemType.getCurrentOsType().isUnix()) {
-            //set the file attributes if OS is Unix
-            if (AtsSystemProperties.isRootUser()) {
-                chown(userId, groupId, directoryName);
-                log.info("Successfully changed UID to " + userId + " and GID to " + groupId);
-            } else {
-                log.info("Current user is non-root and 'chmod' command is not permitted.");
-            }
-        } else {
-            log.info("Target OS is not Unix. UID and GID attributes will be ignored");
-        }
+        setFileOwnerAndGroupIDs(directoryName, userId, groupId);
     }
 
     @Override
@@ -2100,8 +2092,8 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
     /**
      * @param userId   user id
      * @param groupId  group id
-     * @param filename the file name
-     * @throws FileSystemOperationException
+     * @param filename the filesystem object like file or directory
+     * @throws FileSystemOperationException in case of an error
      */
     private void chown(
             long userId,
@@ -2111,14 +2103,31 @@ public class LocalFileSystemOperations implements IFileSystemOperations {
         filename = IoUtils.normalizeFilePath(filename, osType);
         String[] command = new String[] { "/bin/sh",
                 "-c",
-                "chown " + userId + ":" + groupId
-                        + " '" + filename + "'" };
+                "chown " + userId + ":" + groupId + " '" + filename + "'" };
 
-        String[] result = executeExternalProcess(command);
-
-        if (!result[2].equals("0")) {
+        // retry logic for temporal failure like on a NFS mount with async
+        int chownRetries = AtsSystemProperties.getPropertyAsNumber("ats.core.fs.chown.retries_num", 8);
+        long chownInterval = AtsSystemProperties.getPropertyAsNumber("ats.core.fs.chown.retry_interval_ms", 300);
+        String[] result = null;
+        for (int i=1; i <= chownRetries; i++) {
+            result = executeExternalProcess(command);
+            if (result[2].equals("0")) {
+                if (i > 1) {
+                    log.warn(String.format("chown for '%s' succeeded after retry no. %d", filename, i-1));
+                }
+                return;
+            } else {
+                log.info(String.format("chown: [%d] Waiting for retry for entry '%s'", i, filename));
+                try {
+                    Thread.sleep(chownInterval);
+                } catch (InterruptedException e) {
+                    log.info("Interrupted while sleeping. " + e.getMessage());
+                }
+            }
+        }
+        if (result != null && !result[2].equals("0")) {
             throw new FileSystemOperationException("Could not update UID and GID for '" + filename + "': "
-                    + result[1]);
+                                                   + result[1]);
         }
     }
 
