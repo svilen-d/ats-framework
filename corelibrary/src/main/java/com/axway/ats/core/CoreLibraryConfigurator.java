@@ -57,7 +57,7 @@ public class CoreLibraryConfigurator extends AbstractConfigurator {
      * Set the default HTTPS encryption protocols, for example "TLSv1.2".
      * You can specify more than one by using ',' as a delimiter
      * 
-     * @param protocol the encryption protocols
+     * @param protocols the encryption protocols
      */
     @PublicAtsApi
     public void setFileTransferDefaultHttpsEncryptionProtocols(
@@ -81,7 +81,7 @@ public class CoreLibraryConfigurator extends AbstractConfigurator {
      * Set the default HTTPS encryption cipher suites.
      * You can specify more than one by using ',' as a delimiter
      * 
-     * @param protocol the cipher suites
+     * @param cipherSuites the cipher suites
      */
     @PublicAtsApi
     public void setFileTransferDefaultHttpsCipherSuites(

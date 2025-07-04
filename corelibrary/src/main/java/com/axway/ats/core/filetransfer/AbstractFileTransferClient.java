@@ -96,10 +96,9 @@ public abstract class AbstractFileTransferClient implements IFileTransferClient 
     /**
      * Sets a custom port that would be used when connecting to the remote host
      *
-     * @param port the port number
+     * @param portNumber the port number
      */
-    public void setCustomPort(
-                               int portNumber ) {
+    public void setCustomPort( int portNumber ) {
 
         this.port = portNumber;
     }

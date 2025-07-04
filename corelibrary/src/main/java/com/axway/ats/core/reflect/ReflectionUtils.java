@@ -95,7 +95,7 @@ public class ReflectionUtils {
     /**
      * Get field value
      * @param instance - the object over which the search for this field will be invoked
-     * @param field - the field name (case-sensitive)
+     * @param fieldName - the field name (case-sensitive)
      * @param deepSearch - whether to try and search for the field in the class and any of its super classes
      * */
     public static Object
@@ -134,7 +134,7 @@ public class ReflectionUtils {
     /**
      * Get Field from class
      * @param instance - the object over which the search for this field will be invoked
-     * @param field - the field name (case-sensitive)
+     * @param fieldName - the field name (case-sensitive)
      * @param deepSearch - whether to try and search for the field in the class and any of its super classes
      * */
     public static Field

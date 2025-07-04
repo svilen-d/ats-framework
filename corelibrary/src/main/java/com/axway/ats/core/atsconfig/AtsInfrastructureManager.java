@@ -190,7 +190,7 @@ public class AtsInfrastructureManager {
 	/**
 	 * Get the status of ATS Agent by its alias
 	 *
-	 * @param agentAlias
+	 * @param anyApplicationAlias
 	 *            the agent alias declared in the configuration
 	 * @return the {@link ApplicationStatus}
 	 * @throws AtsManagerException
@@ -471,13 +471,13 @@ public class AtsInfrastructureManager {
 	/**
 	 * Execute a shell command on the host where the application is located
 	 *
-	 * @param applicationAlias
+	 * @param anyApplicationAlias
 	 *            the application alias declared in the configuration
 	 * @param command
 	 *            the command to run
 	 * @return information about the execution result containing exit code, STD OUT
 	 *         and STD ERR
-	 * @throws AtsManagerException
+	 * @throws AtsManagerException in case of an error
 	 */
 	public String executeShellCommand(String anyApplicationAlias, String command) throws AtsManagerException {
 
