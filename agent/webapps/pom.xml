@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.axway.ats.framework.agent</groupId>
         <artifactId>ats-agent</artifactId>
-        <version>4.0.11-log4j1-SNAPSHOT</version>
+        <version>4.1.0-log4j1-SNAPSHOT</version>
     </parent>
 
     <groupId>com.axway.ats.framework.agent.webapp</groupId>
@@ -21,7 +21,11 @@
     </modules>
 
     <properties>
-        <maven-war-plugin.version>2.6</maven-war-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <jaxws-plugin.version>2.3.7</jaxws-plugin.version>
+            <!-- newer versions <version>4.0.3</version>-->
+            <!--<version>3.0.2</version>-->
+
     </properties>
 
     <build>
@@ -33,9 +37,12 @@
                     <version>${maven-war-plugin.version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
+                    <!--<groupId>org.codehaus.mojo</groupId>
                     <artifactId>jaxws-maven-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.6</version> -->
+                    <groupId>com.sun.xml.ws</groupId>
+                    <artifactId>jaxws-maven-plugin</artifactId>
+                    <version>${jaxws-plugin.version}</version>
                     <configuration>
                         <vmArgs><!-- needed with newer JAXP versions and java 8, to access local wsdl files -->
                             <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
@@ -56,9 +63,9 @@
                             <pluginExecutions>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
+                                        <groupId>com.sun.xml.ws</groupId>
                                         <artifactId>jaxws-maven-plugin</artifactId>
-                                        <versionRange>[2.3,)</versionRange>
+                                        <version>${jaxws-plugin.version}</version>
                                         <goals>
                                             <goal>wsimport</goal>
                                             <goal>wsgen</goal>

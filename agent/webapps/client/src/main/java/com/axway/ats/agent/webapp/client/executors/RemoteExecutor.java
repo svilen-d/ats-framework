@@ -131,7 +131,7 @@ public class RemoteExecutor extends AbstractClientExecutor {
 
             result = objectInStream.readObject();
 
-        } catch (SocketException e) { // includes ConnectException
+        } catch (SocketException e) { // includes ConnectException, however ConnectException is usually wrapped
             throw new AgentException(COMM_ERROR + atsAgent, e);
         } catch (IOException ioe) {
             throw new AgentException("Could not deserialize returned result from agent at " + atsAgent,
@@ -155,8 +155,16 @@ public class RemoteExecutor extends AbstractClientExecutor {
 
         } catch (Exception e) {
             String msg;
-            if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
-                msg = COMM_ERROR + atsAgent;
+            Throwable cause = e.getCause();
+            if (cause != null) {
+                if (cause instanceof SocketTimeoutException) {
+                    msg = COMM_ERROR + atsAgent;
+                } else if (cause.getMessage() != null
+                            && cause.getMessage().contains("Connection refused")) {
+                    msg = COMM_ERROR + atsAgent + ". Check that remote agent IP:port is correct, " +
+                            "the agent there is started and it is reachable.";
+                }
+                msg = e.getMessage();
             } else {
                 msg = e.getMessage();
             }

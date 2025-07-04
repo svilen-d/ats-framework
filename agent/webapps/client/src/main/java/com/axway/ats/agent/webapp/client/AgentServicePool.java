@@ -125,6 +125,8 @@ public class AgentServicePool {
                      protocol + "://" + host + AgentWsDefinitions.AGENT_SERVICE_ENDPOINT_ADDRESS);
             // setting timeouts
             ctxt.put(BindingProviderProperties.CONNECT_TIMEOUT, 10000); // timeout in milliseconds
+            // TODO use separate map for pushConfiguration only which should not wait much as threading patterns
+            //ctxt.put(BindingProviderProperties.REQUEST_TIMEOUT, 60000); // timeout in milliseconds
 
             uniqueId = ExecutorUtils.getUUID(useNewUuId);
 

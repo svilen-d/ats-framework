@@ -5,7 +5,7 @@
 
     <groupId>com.axway.ats.framework</groupId>
     <artifactId>ats-framework</artifactId>
-    <version>4.0.11-log4j1-SNAPSHOT</version>
+    <version>4.1.0-log4j1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ATS-Framework</name>
     <description>ATS Maven parent artifact. Used for sharing common settings and dependencies</description>
@@ -31,8 +31,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <java.version>1.8</java.version>  <!-- min JRE to use -->
-        <java.classlevel.version>1.8</java.classlevel.version> <!-- Output classpath compliance level -->
+        <java.version>11</java.version>  <!-- min JRE to use -->
+        <java.classlevel.version>11</java.classlevel.version> <!-- Output classpath compliance level -->
         <maven.min.version>3.2.5</maven.min.version>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
 
@@ -79,8 +79,8 @@
 
         <junit.version>4.13.1</junit.version> <!-- v4.12 requires at least PowerMock v1.6.1 which requires EasyMock >=3.3
 			Details here: https://github.com/jayway/powermock/blob/master/changelog.txt -->
-        <org.powermock.powermock-easymock.version>2.0.4</org.powermock.powermock-easymock.version>
-        <org.easymock.version>4.1</org.easymock.version> <!-- this is marked as "provided" in PowerMock 1.6.0 -->
+        <org.powermock.powermock-easymock.version>2.0.9</org.powermock.powermock-easymock.version>
+        <org.easymock.version>5.6.0</org.easymock.version> <!-- this is marked as "provided" in PowerMock 1.6.0 -->
         <cglib.cglib.version>3.0</cglib.cglib.version>
         <org.javassist.version>3.20.0-GA</org.javassist.version>
         <!-- TestNG version used in TestHarness -->
@@ -147,8 +147,16 @@
                     <excludes>
                         <exclude>**/*$*</exclude>
                     </excludes>
-                    <!--<useModulePath>false</useModulePath> For Java 11 do not use modular
-                        path even if module-info.java is found -->
+                    <!--<useModulePath>false</useModulePath> For Java 11 do not use modular path even if module-info.java is found -->
+                    <!-- - -add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+                        - -add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+                        - -add-opens=java.base/sun.security.ssl=ALL-UNNAMED
+                        -->
+                    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED
+                        --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens=java.base/java.io=ALL-UNNAMED
+                        --add-opens=java.base/java.util=ALL-UNNAMED
+                    </argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -348,7 +356,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -487,7 +495,7 @@
                 <version>${org.powermock.powermock-easymock.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
                 <version>${cglib.cglib.version}</version>
@@ -496,7 +504,7 @@
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
                 <version>${org.javassist.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>xalan</groupId>
                 <artifactId>xalan</artifactId>
