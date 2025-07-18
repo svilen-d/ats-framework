@@ -31,7 +31,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <java.version>11</java.version>  <!-- min JRE to use -->
+        <java.version>17</java.version>  <!-- min JRE to use -->
         <java.classlevel.version>11</java.classlevel.version> <!-- Output classpath compliance level -->
         <maven.min.version>3.2.5</maven.min.version>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
@@ -192,9 +192,8 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <message>At least Java 8 is required for ATS framework
-                                        compilation. The limitations
-                                        come from third-party dependencies.
+                                    <message>At least Java 17 is required for ATS framework
+                                        compilation.
                                     </message>
                                     <version>${java.version}</version>
                                 </requireJavaVersion>
