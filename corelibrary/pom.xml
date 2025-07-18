@@ -74,9 +74,7 @@
                         --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
                         --add-opens=java.base/java.nio.file=ALL-UNNAMED
                         --add-opens=java.base/java.nio.channels.spi=ALL-UNNAMED
-
                     </argLine>
-
                 </configuration>
             </plugin>
         </plugins>
@@ -212,6 +210,7 @@
             <groupId>com.datastax.cassandra</groupId>
             <artifactId>cassandra-driver-core</artifactId>
             <version>${com.datastax.cassandra.driver.version}</version>
+            <optional>true</optional>
         </dependency>
         <!-- RegistryOperations requires these two (jna) dependency -->
         <dependency>

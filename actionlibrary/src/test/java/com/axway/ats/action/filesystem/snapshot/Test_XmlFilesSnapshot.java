@@ -48,7 +48,7 @@ public class Test_XmlFilesSnapshot extends BaseTest {
             }
         } while ( (root = new File(root).getParent()) != null);
 
-        throw new RuntimeException("Uable to determine the project root path.");
+        throw new RuntimeException("Unable to determine the project root path.");
     }
 
     @BeforeClass

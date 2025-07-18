@@ -21,17 +21,27 @@
         <selenium-supported.browser.versions>Firefox 79, Chrome 84, Edge 85, IE 11, Safari 5.1+
         </selenium-supported.browser.versions>
         <fest.swing.version>1.2.1</fest.swing.version>
-        <xml-apis.version>1.4.01</xml-apis.version>
         <com.github.detro.ghostdriver.phantomjsdriver>1.2.1</com.github.detro.ghostdriver.phantomjsdriver>
         <org.json.simple.version>1.1.1</org.json.simple.version>
+        <aspectj.version>1.9.24</aspectj.version> <!-- TODO for Java 24 use 1.9.24 -->
     </properties>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>com.nickwongdev</groupId>
+                <!--<groupId>dev.aspectj</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.12.1</version>
+                <version>1.14.1</version>-->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.15.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${aspectj.version}</version> <!-- AspectJ compiler version, in sync with runtime -->
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <complianceLevel>${java.classlevel.version}</complianceLevel>
                     <source>${java.classlevel.version}</source>
@@ -128,7 +138,6 @@
             <artifactId>ats-actionlibrary</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -145,13 +154,6 @@
             <artifactId>htmlunit-driver</artifactId>
             <version>${selenium-htmlunit-driver.version}</version>
         </dependency>
-
-        <!-- <dependency>
-            Seems not needed anymore by HtmlUnit. Before:  Runtime dependant at least for HtmlUnit tests
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>${xml-apis.version}</version>
-        </dependency> -->
 
         <dependency> <!-- Selenium WebDriver for PhantomJS -->
             <groupId>com.codeborne</groupId>
@@ -191,14 +193,14 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.9.6</version> <!-- Lstest current AspectJ with support for some Java 13 and 14 features -->
+            <version>${aspectj.version}</version>
         </dependency>
 
         <!-- Mobile dependencies -->
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>7.0.0</version>
+            <version>7.6.0</version>
             <exclusions> <!-- Rely on versions referenced by selenium-java -->
                 <exclusion>
                     <groupId>org.seleniumhq.selenium</groupId>
@@ -212,6 +214,10 @@
                     <!-- Excluding guava version from io.appium because if it is older compared to Selenium -->
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjweaver</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

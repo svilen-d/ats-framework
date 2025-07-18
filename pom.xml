@@ -55,7 +55,7 @@
         <gpg.skip>true</gpg.skip> <!-- skip maven gpg execution. Enable via -Dgpg.skip=false -->
         <gpg.executable>gpg2</gpg.executable>
 
-        <log4j.version>1.2.19</log4j.version>
+        <log4j.version>1.2.22</log4j.version>
         <slf4j.version>1.7.36</slf4j.version>
         <!-- javamail: Used in CoreLibrary, Log and ActionLibrary -->
         <javax.mail.version>1.4.4</javax.mail.version>
@@ -514,6 +514,17 @@
                 <groupId>xalan</groupId>
                 <artifactId>serializer</artifactId>
                 <version>${apache.xalan.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>${apache.xercesImpl.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
