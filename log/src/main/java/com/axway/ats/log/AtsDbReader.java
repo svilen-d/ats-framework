@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.axway.ats.core.utils.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.axway.ats.common.PublicAtsApi;
@@ -48,8 +49,6 @@ import com.axway.ats.log.autodb.io.PGDbReadAccess;
 import com.axway.ats.log.autodb.io.SQLServerDbReadAccess;
 import com.axway.ats.log.autodb.model.IDbReadAccess;
 import com.axway.ats.log.model.CheckpointResult;
-
-import io.netty.util.internal.StringUtil;
 
 /**
  * <p>Utility class for obtaining test execution data from an ATS Log DB</p>
@@ -157,15 +156,15 @@ public class AtsDbReader {
 
         DbConnection dbConnection = null;
 
-        if (StringUtil.isNullOrEmpty(host)) {
+        if (StringUtils.isNullOrEmpty(host)) {
             throw new IllegalArgumentException("'host' argument must not be null/empty");
         }
 
-        if (StringUtil.isNullOrEmpty(user)) {
+        if (StringUtils.isNullOrEmpty(user)) {
             user = "AtsUser";
         }
 
-        if (StringUtil.isNullOrEmpty(password)) {
+        if (StringUtils.isNullOrEmpty(password)) {
             password = "AtsPassword";
         }
 
@@ -888,27 +887,27 @@ public class AtsDbReader {
             sb.append(" AND " + endTimestampSQL + " <= " + endTimestamp);
         }
 
-        if (!StringUtil.isNullOrEmpty(runName)) {
+        if (!StringUtils.isNullOrEmpty(runName)) {
             sb.append(" AND runName LIKE '%" + runName + "%'");
         }
 
-        if (!StringUtil.isNullOrEmpty(productName)) {
+        if (!StringUtils.isNullOrEmpty(productName)) {
             sb.append(" AND productName LIKE '%" + productName + "%'");
         }
 
-        if (!StringUtil.isNullOrEmpty(versionName)) {
+        if (!StringUtils.isNullOrEmpty(versionName)) {
             sb.append(" AND versionName LIKE '%" + versionName + "%'");
         }
 
-        if (!StringUtil.isNullOrEmpty(buildName)) {
+        if (!StringUtils.isNullOrEmpty(buildName)) {
             sb.append(" AND buildName LIKE '%" + buildName + "%'");
         }
 
-        if (!StringUtil.isNullOrEmpty(osName)) {
+        if (!StringUtils.isNullOrEmpty(osName)) {
             sb.append(" AND osName LIKE '%" + osName + "%'");
         }
 
-        if (!StringUtil.isNullOrEmpty(userNote)) {
+        if (!StringUtils.isNullOrEmpty(userNote)) {
             sb.append(" AND userNote LIKE '%" + userNote + "%'");
         }
         return sb.toString();

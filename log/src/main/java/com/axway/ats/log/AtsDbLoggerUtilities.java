@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -223,7 +224,7 @@ public class AtsDbLoggerUtilities {
 
         if (response.getStatusLine().getStatusCode() != 200) {
             try {
-                List<String> lines = IOUtils.readLines(response.getEntity().getContent());
+                List<String> lines = IOUtils.readLines(response.getEntity().getContent(), StandardCharsets.UTF_8);
                 for (String line : lines) {
                     logger.info(line);
                 }
