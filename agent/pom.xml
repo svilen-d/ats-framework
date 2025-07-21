@@ -21,6 +21,7 @@
 
     <properties>
         <javax.servlet.servlet-api.version>2.5</javax.servlet.servlet-api.version>
+        <jakarta.servlet.servlet-api.version>6.1.0</jakarta.servlet.servlet-api.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -38,6 +39,12 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>${javax.servlet.servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency> <!-- for Agent webapp, all components - Jersey-server -->
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>

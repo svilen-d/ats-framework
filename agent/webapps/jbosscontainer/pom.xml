@@ -217,11 +217,15 @@
         </dependency>
 
         <!-- REST dependencies -->
-        <dependency>
+        <!--OLD <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
-            <version>${javax.ws.rs-api.version}</version> <!-- should be in sync with Jersey server and client impl -->
-            <!-- <scope>provided</scope> -->
+            <version>${javax.ws.rs-api.version}</version> &lt;!&ndash; should be in sync with Jersey server and client impl &ndash;&gt;
+            &lt;!&ndash; <scope>provided</scope> &ndash;&gt;
+        </dependency>-->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>

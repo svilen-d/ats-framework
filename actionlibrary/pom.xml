@@ -138,10 +138,14 @@
             <artifactId>httpmime</artifactId>
             <version>${apache.httpcomponents.version}</version>
         </dependency>
-        <dependency>
+        <!--OLD <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
             <version>${javax.ws.rs-api.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
         </dependency>
 
         <!-- REST module dependencies -->

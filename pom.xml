@@ -95,11 +95,14 @@
             only in ActionLibrary -->
         <gnu.classpath.ext.inetlib.version>1.1.1</gnu.classpath.ext.inetlib.version>
         <org.apache.commons.commons-lang3.version>3.18.0</org.apache.commons.commons-lang3.version>
-        <org.glassfish.jersey.jersey-client.version>2.25.1</org.glassfish.jersey.jersey-client.version>
-        <org.glassfish.jersey.jersey-server.version>2.25.1</org.glassfish.jersey.jersey-server.version>
+        <org.glassfish.jersey.jersey-client.version>3.1.10</org.glassfish.jersey.jersey-client.version>
+        <org.glassfish.jersey.jersey-server.version>3.1.10</org.glassfish.jersey.jersey-server.version>
+        <!-- prev <org.glassfish.jersey.jersey-client.version>2.25.1</org.glassfish.jersey.jersey-client.version>
+        <org.glassfish.jersey.jersey-server.version>2.25.1</org.glassfish.jersey.jersey-server.version>-->
         <!-- this dependency is required after jersey 2.26 -->
         <!-- <org.glassfish.jersey.inject.version>2.26</org.glassfish.jersey.inject.version> -->
-        <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
+        <!--<javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>-->
+        <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
         <com.jcraft.jsch.version>0.1.55</com.jcraft.jsch.version>
 
         <!-- Used in Action/Core libraries and agentapp all -->
@@ -524,6 +527,11 @@
                         <artifactId>xml-apis</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.ws.rs</groupId>
+                <artifactId>jakarta.ws.rs-api</artifactId>
+                <version>${jakarta.ws.rs-api.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
