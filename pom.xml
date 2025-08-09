@@ -32,7 +32,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <java.version>17</java.version>  <!-- min JRE to use -->
-        <java.classlevel.version>11</java.classlevel.version> <!-- Output classpath compliance level -->
+        <!-- Jersey's 2.25.1 repackaged objectweb.asm supports up to classlevel 9 -->
+        <java.classlevel.version>9</java.classlevel.version> <!-- Output classpath compliance level -->
         <maven.min.version>3.2.5</maven.min.version>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
 
