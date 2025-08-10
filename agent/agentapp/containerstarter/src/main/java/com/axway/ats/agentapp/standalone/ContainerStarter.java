@@ -73,9 +73,16 @@ public class ContainerStarter {
      */
     public static void main( String[] args ) throws IOException {
 
-        startServer();
+        Server server = startServer();
 
         writePidFile();
+
+        // Join the server thread to keep it running
+        try {
+            server.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -117,8 +124,6 @@ public class ContainerStarter {
 
             server.setServerInfo("ATS Agent"); // version?
             server.start();
-            // Join the server thread to keep it running
-            server.join();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -283,7 +288,7 @@ public class ContainerStarter {
 
         String pid = getCurrentProcessId();
         if (pid == null) {
-            log.warn("Uable to get the current process ID, which means that we can't stop the agent later");
+            log.warn("Unable to get the current process ID, which means that we can't stop the agent later");
             return;
         }
 
