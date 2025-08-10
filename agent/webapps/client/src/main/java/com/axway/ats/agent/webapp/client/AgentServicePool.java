@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 Axway Software
+ * Copyright 2017-2025 Axway Software
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.handler.MessageContext;
 
 import com.axway.ats.agent.core.context.ApplicationContext;
 import com.axway.ats.agent.core.exceptions.AgentException;

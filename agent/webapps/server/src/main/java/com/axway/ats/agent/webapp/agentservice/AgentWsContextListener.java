@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 Axway Software
+ * Copyright 2017-2025 Axway Software
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package com.axway.ats.agent.webapp.agentservice;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 
@@ -62,7 +62,7 @@ public class AgentWsContextListener implements ServletContextListener {
         String pathToConfigFile = servletContext.getRealPath("/WEB-INF");
         AgentConfigurator defaultConfigurator = new AgentConfigurator(pathToConfigFile);
         TemplateActionsConfigurator templateActionsConfigurator = new TemplateActionsConfigurator(pathToConfigFile);
-        List<Configurator> configurators = new ArrayList<Configurator>();
+        List<Configurator> configurators = new ArrayList<>();
         configurators.add(defaultConfigurator);
         configurators.add(templateActionsConfigurator);
 
@@ -76,10 +76,7 @@ public class AgentWsContextListener implements ServletContextListener {
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @seejavax.servlet.ServletContextListener#contextDestroyed(javax.servlet.
-     * ServletContextEvent)
+     * @see jakarta.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
     @Override
     public void contextDestroyed( ServletContextEvent servletEvent ) {

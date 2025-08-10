@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 Axway Software
+ * Copyright 2017-2025 Axway Software
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.annotation.Resource;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 import com.axway.ats.agent.core.ActionHandler;
 import com.axway.ats.agent.core.EnvironmentHandler;
@@ -205,7 +205,7 @@ public class AgentWsImpl {
     /**
      * Cleanup the resources for a particular client side object instance
      *
-     * @param internalProcessId
+     * @param internalObjectResourceId
      */
     @WebMethod
     public void cleanupInternalObjectResources(
@@ -389,7 +389,7 @@ public class AgentWsImpl {
      * @param queueName the name of the action queue
      * @param actions the actions in that queue
      * @param serializedThreadingPattern the serialized threading pattern to be used
-     * @param testCaseState the test case state
+     * @param serializedLoaderDataConfig loader config
      * @throws AgentException on error
      * @throws InternalComponentException if an exception is thrown while the actions are executed
      */
@@ -464,7 +464,6 @@ public class AgentWsImpl {
      * Start an action queue
      *
      * @param queueName the name of the action queue
-     * @param testCaseState the test case state
      * @throws AgentException on error
      * @throws InternalComponentException if an exception is thrown while the actions are executed
      */
@@ -680,7 +679,7 @@ public class AgentWsImpl {
     /**
      * Apply client configuration to the server
      *
-     * @param configurators the serialized configurators to be applied
+     * @param serializedConfigurators the serialized configurators to be applied
      * @return the agent version
      * @throws AgentException on error
      */

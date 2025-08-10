@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 Axway Software
+ * Copyright 2018-2025 Axway Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  */
 package com.axway.ats.examples.basic.http.testbeans;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * Equivalent to the PersonPojoBean, but annotated with the Javax XML Bind annotation
+ * Equivalent to the PersonPojoBean, but annotated with the Jakarta XML Bind annotation
  *
  * Used for serialization/deserialization over the network when sending/receiving XML data
  *
@@ -45,8 +45,7 @@ public class PersonXmlBean {
         return id;
     }
 
-    public void setId(
-            int id ) {
+    public void setId( int id ) {
 
         this.id = id;
     }
@@ -56,8 +55,7 @@ public class PersonXmlBean {
         return firstName;
     }
 
-    public void setFirstName(
-            String firstName ) {
+    public void setFirstName( String firstName ) {
 
         this.firstName = firstName;
     }
@@ -67,8 +65,7 @@ public class PersonXmlBean {
         return lastName;
     }
 
-    public void setLastName(
-            String lastName ) {
+    public void setLastName( String lastName ) {
 
         this.lastName = lastName;
     }

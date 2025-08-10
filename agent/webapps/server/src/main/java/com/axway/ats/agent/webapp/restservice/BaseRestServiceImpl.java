@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 Axway Software
+ * Copyright 2017-2025 Axway Software
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-//import javax.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.axway.ats.agent.core.context.ApplicationContext;

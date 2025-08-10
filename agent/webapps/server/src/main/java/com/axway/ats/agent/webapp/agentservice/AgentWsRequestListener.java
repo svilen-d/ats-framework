@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Axway Software
+ * Copyright 2017-2025 Axway Software
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package com.axway.ats.agent.webapp.agentservice;
 
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
 
 import com.axway.ats.agent.core.MainComponentLoader;
 

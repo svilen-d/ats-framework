@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Axway Software
+ * Copyright 2017-2025 Axway Software
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,7 +92,7 @@ public class CleaningThread extends Thread {
             // threads of the main application should have finished.
         } catch (Exception ex) {
             exitCode = -1;
-            log.error("Unexpected exception while waitnig for the main application to finish.", ex);
+            log.error("Unexpected exception while waiting for the main application to finish.", ex);
         } finally {
             try {
                 // if we reach here it means the only non-daemon threads

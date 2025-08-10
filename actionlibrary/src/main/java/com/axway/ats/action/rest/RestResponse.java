@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 Axway Software
+ * Copyright 2017-2025 Axway Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 

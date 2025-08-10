@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Axway Software
+ * Copyright 2017-2025 Axway Software
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.axway.ats.action.rest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
@@ -115,7 +115,7 @@ public class RestMediaType {
 
     /**
      * Convert this object to {@link MediaType} instance.
-     * @param typeAndSubtypeAndParameter Example: multipart/form-data;boundary=;charset=UTF-8 or application/json
+     * @param typeSubtypeAndParameters Example: multipart/form-data;boundary=;charset=UTF-8 or application/json
      * @param charset - the charset parameter ( charset=UTF-8 )
      * */
 
