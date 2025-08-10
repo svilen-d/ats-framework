@@ -38,10 +38,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 
 import com.axway.ats.agentapp.standalone.exceptions.AgentException;
 import com.axway.ats.agentapp.standalone.log.appenders.SizeRollingFileAppender;
@@ -92,29 +91,34 @@ public class ContainerStarter {
         log.info("Starting ATS agent at port: " + agentPort);
 
         final String jettyHome = getJettyHome();
+        final String agentAppPrefix = "/agentapp";
 
         logSystemInformation(jettyHome);
 
         // start the server
-        Connector connector = new SelectChannelConnector();
-        connector.setPort(agentPort);
-
         Server server = new Server();
-        server.setConnectors(new Connector[]{ connector });
 
-        WebAppContext webApp = new WebAppContext();
-        webApp.setContextPath("/agentapp");
-        webApp.setWar(jettyHome + "/webapp/agentapp.war");
-        webApp.setAttribute("org.eclipse.jetty.webapp.basetempdir",
-                            getJettyWorkDir(jettyHome));
+        try (ServerConnector connector = new ServerConnector(server)) {
+            connector.setPort(agentPort);
+            server.addConnector( connector );
+//            server.setConnectors(new Connector[]{ connector });
+            log.info("Added connector on port " + agentPort);
 
-        server.setHandler(webApp);
-        server.setStopAtShutdown(true);
+            WebAppContext webApp = new WebAppContext();
+            webApp.setContextPath(agentAppPrefix);
+            webApp.setWar(jettyHome + "/webapp" + agentAppPrefix + ".war");
+            webApp.setTempDirectory(new File(getJettyWorkDir(jettyHome)));
 
-        setExtraClasspath(webApp, jettyHome);
+            server.setHandler(webApp);
+            log.info("Added webapp " + agentAppPrefix);
+            server.setStopAtShutdown(true);
 
-        try {
+            setExtraClasspath(webApp, jettyHome);
+
+            server.setServerInfo("ATS Agent"); // version?
             server.start();
+            // Join the server thread to keep it running
+            server.join();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
