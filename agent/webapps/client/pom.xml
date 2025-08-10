@@ -28,7 +28,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${org.apache.maven.plugins.maven.javadoc.plugin.version}</version>
                 <configuration>
-                    <source>8</source>
+                    <source>11</source>
                     <!-- disables JDK 8 doclint javadoc feature, so all javadoc errors are
                         treated as warnings -->
                     <additionalJOption>-Xdoclint:none</additionalJOption>
@@ -47,7 +47,7 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
+                <groupId>com.sun.xml.ws</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <executions>
                     <execution>
@@ -95,7 +95,6 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.metro</groupId>
                                     <artifactId>webservices-api</artifactId>
-                                    <!-- inherited version 2.4.3 <version>2.1.1</version>-->
                                     <type>jar</type>
                                 </artifactItem>
                                 <!-- Alternative with these 2 artifacts part of metro 2.1.1 APIs. They are not found in Axway repositories

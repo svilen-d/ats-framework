@@ -20,8 +20,9 @@
     </modules>
 
     <properties>
-        <javax.servlet.servlet-api.version>2.5</javax.servlet.servlet-api.version>
         <jakarta.servlet.servlet-api.version>6.1.0</jakarta.servlet.servlet-api.version>
+        <com.sun.jaxws.version>4.0.3</com.sun.jaxws.version>
+        <eclispe.jetty.version>12.0.23</eclispe.jetty.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -35,12 +36,6 @@
                 <artifactId>xercesImpl</artifactId>
                 <version>${apache.xercesImpl.version}</version>
             </dependency>
-            <dependency> <!-- for Agent core and webapp components. Another one used for agent all -->
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>${javax.servlet.servlet-api.version}</version>
-                <scope>provided</scope>
-            </dependency>
             <dependency> <!-- for Agent webapp, all components - Jersey-server -->
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
@@ -48,15 +43,10 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.jetty.aggregate</groupId>
-                <artifactId>jetty-webapp</artifactId>
-                <version>8.1.0.v20120127</version>  <!-- 8.1.16.v20140903 -->
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-webapp</artifactId>
+                <version>${eclispe.jetty.version}</version>
             </dependency>
-            <!-- <dependency> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-server</artifactId>
-                <version>8.1.0.v20120127</version> TODO: use latest 8 (currently 8.1.16.v20140903)
-                or even 9.2.x </dependency> <dependency> <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-webapp</artifactId> <version>8.1.0.v20120127</version>
-                </dependency> -->
             <dependency>
                 <groupId>org.fusesource</groupId>
                 <artifactId>sigar</artifactId>
@@ -70,17 +60,22 @@
             <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>jaxws-rt</artifactId>
-                <version>2.3.2</version>
+                <version>4.0.3</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-rt</artifactId>
-                <version>2.4.3</version>
+                <version>4.0.4</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-api</artifactId>
-                <version>2.4.3</version>
+                <version>4.0.4</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.jws</groupId>
+                <artifactId>jakarta.jws-api</artifactId>
+                <version>3.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

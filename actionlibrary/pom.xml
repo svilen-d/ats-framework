@@ -13,8 +13,9 @@
     <name>ATS-ActionLibrary</name>
     <description>
         ATS Action library.
-        ATS - Action library for performing different operations like: file system;
-        file transfers over different protocols, DB, mail, process operations
+        ATS - Action library for performing different operations like: file system,
+        file transfers over different protocols, DB, mail, process operations.
+        All actions could be either local or remote via ATS Agent.
     </description>
     <url>https://github.com/Axway/ats-framework</url>
 
@@ -44,7 +45,6 @@
                         --add-opens=java.base/java.nio.file=ALL-UNNAMED
                         --add-opens=java.base/java.nio.channels.spi=ALL-UNNAMED
                     </argLine>
-
                 </configuration>
             </plugin>
         </plugins>

@@ -45,10 +45,6 @@
             <artifactId>ats-agent-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency> <!-- since Jetty used is currently old version -->
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
@@ -79,15 +75,18 @@
         </dependency>
 
         <!-- REST dependencies -->
-        <!-- OLD <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>${javax.ws.rs-api.version}</version> &lt;!&ndash; should be in sync with Jersey server and client impl &ndash;&gt;
-            &lt;!&ndash; <scope>provided</scope> &ndash;&gt;
-        </dependency>-->
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.jws</groupId>
+            <artifactId>jakarta.jws-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <version>4.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
@@ -105,13 +104,11 @@
             <artifactId>jersey-media-moxy</artifactId>
             <version>${org.glassfish.jersey.jersey-client.version}</version>
         </dependency>
-        <!-- this dependency is required after jersey 2.26 -->
-        <!-- https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found -->
-        <!-- <dependency>
+        <dependency> <!-- needed for dependency injection -->
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <version>${org.glassfish.jersey.inject.version}</version>
-        </dependency> -->
+            <version>${org.glassfish.jersey.jersey-client.version}</version>
+        </dependency>
 
     </dependencies>
 </project>

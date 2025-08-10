@@ -89,6 +89,12 @@
             <artifactId>ats-actionlibrary</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency> <!-- RestClient dependency -->
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${org.glassfish.jersey.jersey-server.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.axway.ats.framework</groupId>
             <artifactId>ats-rbv</artifactId>
