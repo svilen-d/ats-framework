@@ -3,7 +3,7 @@
 # (Optional) Java and JVM runtime options
 #Example : export JAVA_OPTS="$JAVA_OPTS -Dmy.prop1=ABC -Dmy.prop2=CBA"
 JAVA_OPTS="$JAVA_OPTS  --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED \
-  --add-opens java.management/javax.management.openmbean=ALL-UNNAMED "
+  --add-opens java.management/javax.management.openmbean=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
 
 # the Agent port
 PORT=8089

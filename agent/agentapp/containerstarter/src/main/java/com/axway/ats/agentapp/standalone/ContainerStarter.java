@@ -74,9 +74,6 @@ public class ContainerStarter {
     public static void main( String[] args ) throws IOException {
 
         Server server = startServer();
-
-        writePidFile();
-
         // Join the server thread to keep it running
         try {
             server.join();
@@ -123,6 +120,7 @@ public class ContainerStarter {
             setExtraClasspath(webApp, jettyHome);
 
             server.setServerInfo("ATS Agent"); // version?
+            writePidFile();
             server.start();
         } catch (Exception e) {
             e.printStackTrace();
