@@ -16,7 +16,10 @@
 
 ::Example added through CMD -> agent.bat start -java_opts "-Dprop1=abc" -java_opts "-Dprop2=cba"
 rem @SET JAVA_OPTS=%JAVA_OPTS%
-@SET JAVA_OPTS="%JAVA_OPTS%  --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.management/javax.management.openmbean=ALL-UNNAMED"
+@SET JAVA_OPTS=%JAVA_OPTS% --add-opens java.base/java.lang=ALL-UNNAMED^
+  --add-opens java.base/java.io=ALL-UNNAMED^
+  --add-opens java.management/javax.management.openmbean=ALL-UNNAMED^
+  --add-opens java.base/java.lang.reflect=ALL-UNNAMED
 
 :: the Agent port
 @SET PORT=8089
