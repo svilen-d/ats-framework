@@ -22,7 +22,7 @@
     <properties>
         <jakarta.servlet.servlet-api.version>6.1.0</jakarta.servlet.servlet-api.version>
         <com.sun.jaxws.version>4.0.3</com.sun.jaxws.version>
-        <eclispe.jetty.version>12.0.23</eclispe.jetty.version>
+        <eclispe.jetty.version>12.0.25</eclispe.jetty.version>
     </properties>
     <dependencyManagement>
         <dependencies>

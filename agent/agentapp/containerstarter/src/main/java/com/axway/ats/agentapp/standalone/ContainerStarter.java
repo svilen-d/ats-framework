@@ -102,10 +102,10 @@ public class ContainerStarter {
         // start the server
         Server server = new Server();
 
-        try (ServerConnector connector = new ServerConnector(server)) {
+        try {
+            ServerConnector connector = new ServerConnector(server);
             connector.setPort(agentPort);
             server.addConnector( connector );
-//            server.setConnectors(new Connector[]{ connector });
             log.info("Added connector on port " + agentPort);
 
             WebAppContext webApp = new WebAppContext();
@@ -122,6 +122,7 @@ public class ContainerStarter {
             server.setServerInfo("ATS Agent"); // version?
             writePidFile();
             server.start();
+            log.info("ATS Agent server socket started on " + server.getURI());
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
