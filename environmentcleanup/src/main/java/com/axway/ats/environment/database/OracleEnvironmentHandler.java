@@ -120,12 +120,14 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
 
             //check if the column should be skipped in the backup
             if (!table.getColumnsToExclude().contains(columnName)) {
-
-                ColumnDescription colDescription = new OracleColumnDescription(columnName,
-                                                                               (String) columnMetaData.get(
-                                                                                       "DATA_TYPE"));
-
-                columnsToSelect.add(colDescription);
+                if (columnName.startsWith("SYS_NC")) {
+                    log.info("Skipping from backup system column " + columnName + " for table " +  table.getTableName());
+                } else {
+                    ColumnDescription colDescription = new OracleColumnDescription(columnName,
+                                                                                   (String) columnMetaData.get(
+                                                                                           "DATA_TYPE"));
+                    columnsToSelect.add(colDescription);
+                }
             } else {
                 //if this column has no default value, we cannot skip it in the backup
                 if (columnMetaData.get("DATA_DEFAULT") == null) {
