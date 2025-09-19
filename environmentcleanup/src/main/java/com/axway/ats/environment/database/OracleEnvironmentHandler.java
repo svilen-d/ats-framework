@@ -95,6 +95,8 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
 
         // ALL_TAB_COLS - All columns of tables accessible by this user. OWNER restriction is used because user might
         // have access to other user's tables and columns
+        // TODO: ALL_TAB_COLS could be replaced with ALL_TAB_COLUMNS to filter out hidden/system-generated columns
+        //   Oracle DB Reference -> Static data dictionary Views -> ALL_TAB_COLUMNS  https://docs.oracle.com/database/121/REFRN/GUID-F218205C-7D76-4A83-8691-BFD2AD372B63.htm#REFRN20277
         String selectColumnsInfo = "SELECT * FROM ALL_TAB_COLS WHERE TABLE_NAME='"
                                    + table.getTableName().toUpperCase() + "' AND OWNER='"
                                    + userName.toUpperCase() + "'";
@@ -117,17 +119,20 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
         for (DbRecordValuesList columnMetaData : columnsMetaData) {
 
             String columnName = (String) columnMetaData.get("COLUMN_NAME");
-
             //check if the column should be skipped in the backup
             if (!table.getColumnsToExclude().contains(columnName)) {
-
-                ColumnDescription colDescription = new OracleColumnDescription(columnName,
-                                                                               (String) columnMetaData.get(
-                                                                                       "DATA_TYPE"));
-
-                columnsToSelect.add(colDescription);
+                if (columnName.startsWith("SYS_NC")) {
+                    // Like SYS_NS0001$, system-generated column, could be filtered with attribute USER_GENERATED=NO
+                    //   See: ALL_TAB_COLS reference https://docs.oracle.com/database/121/REFRN/GUID-85036F42-140A-406B-BE11-0AC49A00DBA3.htm#REFRN20276
+                    log.info("Skipping from backup system column " + columnName + " for table " +  table.getTableName());
+                } else {
+                    ColumnDescription colDescription = new OracleColumnDescription(columnName,
+                                                                                   (String) columnMetaData.get(
+                                                                                           "DATA_TYPE"));
+                    columnsToSelect.add(colDescription);
+                }
             } else {
-                //if this column has no default value, we cannot skip it in the backup
+                // if this column has no default value, we cannot skip it in the backup
                 if (columnMetaData.get("DATA_DEFAULT") == null) {
                     log.error("Cannot skip columns with no default values while creating backup");
                     throw new ColumnHasNoDefaultValueException(table.getTableName(), columnName);
