@@ -5,7 +5,7 @@
 
     <groupId>com.axway.ats.framework</groupId>
     <artifactId>ats-framework</artifactId>
-    <version>4.1.0-log4j1-SNAPSHOT</version>
+    <version>4.5.0-log4j1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ATS-Framework</name>
     <description>ATS Maven parent artifact. Used for sharing common settings and dependencies</description>
@@ -272,7 +272,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>${org.sonatype.plugins.nexus.staging.maven.plugin.version}</version>
@@ -282,7 +282,7 @@
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <!-- Used only when deploying new release version -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
