@@ -553,6 +553,16 @@ public class FtpClient extends AbstractFtpClient implements IFtpClient {
         debugMode = turnDebug;
     }
 
+    /**
+     * Gets internal implementation. Subject to changes.
+     *
+     * @return Internal implementation. For now FTPClient from commons-net.
+     */
+    public Object getInternalObject() {
+
+        return client;
+    }
+
     @Override
     protected void finalize() throws Throwable {
 
