@@ -93,11 +93,9 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
         // TODO Implementation might be replaced with JDBC DatabaseMetaData.getColumns() but should be verified
         // with default column values
 
-        // ALL_TAB_COLS - All columns of tables accessible by this user. OWNER restriction is used because user might
-        // have access to other user's tables and columns
-        // TODO: ALL_TAB_COLS could be replaced with ALL_TAB_COLUMNS to filter out hidden/system-generated columns
+        // Use ALL_TAB_COLUMNS instead of ALL_TAB_COLS to filter out hidden/system-generated columns
         //   Oracle DB Reference -> Static data dictionary Views -> ALL_TAB_COLUMNS  https://docs.oracle.com/database/121/REFRN/GUID-F218205C-7D76-4A83-8691-BFD2AD372B63.htm#REFRN20277
-        String selectColumnsInfo = "SELECT * FROM ALL_TAB_COLS WHERE TABLE_NAME='"
+        String selectColumnsInfo = "SELECT * FROM ALL_TAB_COLUMNS WHERE TABLE_NAME='"
                                    + table.getTableName().toUpperCase() + "' AND OWNER='"
                                    + userName.toUpperCase() + "'";
         ArrayList<ColumnDescription> columnsToSelect = new ArrayList<ColumnDescription>();
@@ -124,7 +122,7 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
                 if (columnName.startsWith("SYS_NC")) {
                     // Like SYS_NS0001$, system-generated column, could be filtered with attribute USER_GENERATED=NO
                     //   See: ALL_TAB_COLS reference https://docs.oracle.com/database/121/REFRN/GUID-85036F42-140A-406B-BE11-0AC49A00DBA3.htm#REFRN20276
-                    log.info("Skipping from backup system column " + columnName + " for table " +  table.getTableName());
+                    log.warn("Skipping from backup system column " + columnName + " for table " +  table.getTableName());
                 } else {
                     ColumnDescription colDescription = new OracleColumnDescription(columnName,
                                                                                    (String) columnMetaData.get(
