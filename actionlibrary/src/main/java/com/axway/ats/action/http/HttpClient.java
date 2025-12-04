@@ -414,7 +414,7 @@ public class HttpClient {
     }
 
     /**
-     * Set timeouts. Timeouts default to zero, i.e. no timeout.
+     * Set timeouts in seconds. Timeouts default to zero, i.e. no timeout.
      *
      * @param connectTimeoutSeconds The connect timeout
      * @param readTimeoutSeconds The read timeout

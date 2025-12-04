@@ -516,8 +516,7 @@ public class JschSftpClient {
             }
 
         } catch (Exception e) {
-
-            throw new JschSftpClientException("Error while purging directory contnets '" + directoryPath + "'", e);
+            throw new JschSftpClientException("Error while purging directory content for '" + directoryPath + "'", e);
         }
     }
 
