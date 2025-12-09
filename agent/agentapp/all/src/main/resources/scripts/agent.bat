@@ -158,6 +158,17 @@ IF %ERRORLEVEL%==0 (
     set JAVA_VERSION=9
 )
 
+REM Replace spaces with '='
+SET "JAVA_OPTS=!JAVA_OPTS:--add-opens =--add-opens=!"
+SET "JAVA_OPTS=!JAVA_OPTS:--add-exports =--add-exports=!"
+
+REM Take unique entries
+@SET NEW_OPTS=
+FOR /F "delims=" %%V IN ('powershell -Command "'%JAVA_OPTS%' -split '[ ]+(?=-)' |select -Unique"') DO (
+	@SET "NEW_OPTS=!NEW_OPTS! %%V"
+)
+@SET "JAVA_OPTS=%NEW_OPTS%"
+
 IF %JAVA_VERSION%==9 (
     REM Java 9 or newer detected
 
