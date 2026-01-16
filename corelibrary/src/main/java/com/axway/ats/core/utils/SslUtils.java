@@ -346,7 +346,7 @@ public class SslUtils {
             sslSocket.startHandshake();
             return sslSocket.getSession().getPeerCertificates();
         } catch (Exception e) {
-            throw new RuntimeException("Could not get certificate of secure socket to " + host + ":" + port + ".!", e);
+            throw new RuntimeException("Could not get certificate of secure socket to " + host + ":" + port + "!", e);
         }
     }
 

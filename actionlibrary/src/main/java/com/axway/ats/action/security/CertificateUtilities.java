@@ -46,11 +46,11 @@ public class CertificateUtilities {
      * Create keystore file 
      * 
      * @param cert the needed certificate for creating the keystore
-     * @param keyStoreFullPath the full path where the keystore file will be located
+     * @param fullKeyStorePath the full path where the keystore file will be located
      * @param keyStoreType the type of the keystore file
-     * @param keyStorePassword the the password for the keystore
+     * @param keyStorePassword the password for the keystore
      * 
-     * TIP: if the keystoreFullPath, keyStoreType, keyStorePassword are empty we will set the default
+     * TIP: if the fullKeyStorePath, keyStoreType, keyStorePassword are empty we will set the default
      * 
      * @return Properties object with the keyStore location, type and password
      */
