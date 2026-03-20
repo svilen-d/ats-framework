@@ -250,7 +250,7 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
                             stmtBlockBuilder.append(INDENTATION + varName + " := " + fieldValue + ";"
                                                     + AtsSystemProperties.SYSTEM_LINE_SEPARATOR);
                             String binaryMethod = "to_" + column.getType().toLowerCase();
-                            if (length > MAX_BINARY_COLUMN_INSERT_LENGTH) {
+                            if (length > MAX_BINARY_COLUMN_INSERT_LENGTH) { // bigger data is not yet partitioned and escaped
                                 stmtBlockBuilder.append(INDENTATION + "dbms_lob.createtemporary(" + varName + ",true);"
                                         + AtsSystemProperties.SYSTEM_LINE_SEPARATOR);
                                 int currentBinaryIdx = 0;
@@ -261,6 +261,7 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
                                                                 + origValue.substring(currentBinaryIdx,
                                                                                       currentBinaryIdx
                                                                                       + MAX_BINARY_COLUMN_INSERT_LENGTH)
+                                                                           .replace("'", "''") // escape apos
                                                                 + "'));" + AtsSystemProperties.SYSTEM_LINE_SEPARATOR);
                                         currentBinaryIdx += MAX_BINARY_COLUMN_INSERT_LENGTH;
                                     } else {
@@ -270,6 +271,7 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
                                                                                       (int) (currentBinaryIdx
                                                                                              + (length
                                                                                                 - currentBinaryIdx)))
+                                                                           .replace("'", "''")
                                                                 + "'));" + AtsSystemProperties.SYSTEM_LINE_SEPARATOR);
                                         // safely break the loop here
                                         break;
@@ -507,20 +509,20 @@ class OracleEnvironmentHandler extends AbstractEnvironmentHandler {
         super.createBackup(backupFileName);
 
         // In order to add and enable the foreign keys, that are related to the tables for backup
-        // all of the columns, referenced in those foreign keys must have values in the referenced table
-        // That's why we insert records into all of the tables, added to backup,
-        // and then add and enable all of the foreign keys
+        // all the columns, referenced in those foreign keys must have values in the referenced table
+        // That's why we insert records into all the tables, added to the backup,
+        // and then add and enable all foreign keys
         BufferedWriter fileWriter = null;
         try {
             fileWriter = new BufferedWriter(new FileWriter(new File(backupFileName), true));
 
-            // create all of the foreign keys
+            // create all foreign keys
             for (TableConstraints tbConst : tablesConstraints) {
                 for (String fkQuery : tbConst.foreignKeyStatements) {
                     fileWriter.append(fkQuery + EOL_MARKER + AtsSystemProperties.SYSTEM_LINE_SEPARATOR);
                 }
             }
-            // enable the foreign keys
+            // enable foreign keys
             for (TableConstraints tbConst : tablesConstraints) {
                 for (String fkEnableQuery : tbConst.enableForeignKeyConstraintStatements) {
                     fileWriter.append(fkEnableQuery + EOL_MARKER + AtsSystemProperties.SYSTEM_LINE_SEPARATOR);
