@@ -16,17 +16,20 @@
 package com.axway.ats.action.ftp;
 
 import com.axway.ats.common.PublicAtsApi;
+import com.axway.ats.common.filetransfer.FileTransferException;
 import com.axway.ats.common.filetransfer.TransferMode;
 import com.axway.ats.core.filetransfer.model.ftp.FtpListener;
 import com.axway.ats.core.filetransfer.model.ftp.FtpResponseListener;
 import com.axway.ats.core.utils.SslUtils;
 import com.axway.ats.core.utils.StringUtils;
+import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.log4j.Logger;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
+import java.io.IOException;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -176,6 +179,32 @@ public class FtpsClient extends FtpClient implements IFtpClient {
 
         throw new FtpException("Not implemented");
 
+    }
+
+    protected void performDownloadFile(String localFile, String remoteDir, String remoteFile)
+            throws FileTransferException {
+        prepareForSecureDataChannel();
+        super.performDownloadFile(localFile, remoteDir, remoteFile);
+    }
+
+    protected void performUploadFile(String localFile, String remoteDir, String remoteFile)
+            throws FileTransferException {
+        prepareForSecureDataChannel();
+        super.performUploadFile(localFile, remoteDir, remoteFile);
+    }
+
+    private void prepareForSecureDataChannel() {
+        if (client == null || !client.isConnected()) {
+            throw new FileTransferException("Not connected to the server. Please connect first before performing any" +
+                                                    " file transfer operations.");
+        }
+        FTPSClient apacheFtpsClient = (FTPSClient) client;
+        try {
+            apacheFtpsClient.execPBSZ(0);
+            apacheFtpsClient.execPROT("P");
+        } catch (IOException e) {
+            throw new FileTransferException("FtpsClient error while preparing for secure data channel", e);
+        }
     }
 
     private void performConnect(String hostname, String userName, String password) throws FtpException {

@@ -19,13 +19,11 @@ import com.axway.ats.common.PublicAtsApi;
 import com.axway.ats.common.filetransfer.FileTransferException;
 import com.axway.ats.common.filetransfer.TransferMode;
 import com.axway.ats.core.CoreLibraryConfigurator;
-import com.axway.ats.core.filetransfer.AbstractFileTransferClient;
 import com.axway.ats.core.filetransfer.model.ftp.FtpListener;
 import com.axway.ats.core.filetransfer.model.ftp.FtpResponseListener;
 import com.axway.ats.core.utils.IoUtils;
 import com.axway.ats.core.utils.StringUtils;
 import org.apache.commons.net.ProtocolCommandListener;
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
@@ -567,10 +565,12 @@ public class FtpClient extends AbstractFtpClient implements IFtpClient {
     protected void finalize() throws Throwable {
 
         // ensure the connection is terminated
-        this.disconnect();
-
+        try {
+            this.disconnect();
+        } catch (Exception e) {
+            log.debug("Error disconnection on finalize", e);
+        }
         this.listener = null;
-
         super.finalize();
     }
 
