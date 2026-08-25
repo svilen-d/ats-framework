@@ -2,7 +2,9 @@
 [![GitHub version](https://badge.fury.io/gh/Axway%2Fats-framework.svg)](https://badge.fury.io/gh/Axway%2Fats-framework)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**WORK IN PROGRESS - Branch using latest features with Log4J 1.2.x**
+**Note. This is fork from the former Axway ATS-Framework Github project**
+
+**Branch using latest features with Log4J 1.2.x**
 
 **Version pending: 4.5.3 (currently in SNAPSHOT). Note that 4.0.8 and 4.0.9 are released versions using log4j 2.x.**
 
@@ -32,7 +34,7 @@ ATS **key features** include:
 
 **Video tutorials** are published on YouTube [here](https://www.youtube.com/watch?v=yeOrNUucNH0&list=PLLuHfb7NQS5oaENWHfYR5XuY-wNYvZgYj)
 
-[![ATS framework preview](https://axway.github.io/ats-framework/images/ATS_Preview_TE_1.png)](https://www.youtube.com/watch?v=yeOrNUucNH0&list=PLLuHfb7NQS5oaENWHfYR5XuY-wNYvZgYj "ATS Framework playlist. Use Ctrl+Click or Cmd+Click to open in new browser tab")
+[![ATS framework preview](https://svilen-d.github.io/ats-framework/images/ATS_Preview_TE_1.png)](https://www.youtube.com/watch?v=yeOrNUucNH0&list=PLLuHfb7NQS5oaENWHfYR5XuY-wNYvZgYj "ATS Framework playlist. Use Ctrl+Click or Cmd+Click to open in new browser tab")
 
 ---
 
@@ -43,9 +45,9 @@ ATS framework **artifacts** are available at https://oss.sonatype.org/content/gr
 
 Other **related projects**:
 <ul>
-  <li>ATS Test Explorer at https://github.com/Axway/ats-testexplorer</li>
-  <li>ATS HTTP DB Logger at https://github.com/Axway/ats-httpdblogger</li>
-  <li>ATS Distribution at https://github.com/Axway/ats-distrib</li>
+  <li>ATS Test Explorer at https://github.com/svilen-d/ats-testexplorer</li>
+  <li>ATS HTTP DB Logger at https://github.com/svilen-d/ats-httpdblogger</li>
+  <li>ATS Distribution at https://github.com/svilen-d/ats-distrib</li>
 </ul>
 
 ---
